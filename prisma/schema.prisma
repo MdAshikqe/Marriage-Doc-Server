@@ -1,0 +1,127 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                 String     @id @default(uuid())
+  email              String     @unique
+  password           String
+  role               UserRole
+  needChangePassword Boolean    @default(true)
+  status             UserStatus @default(ACTIVE)
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+
+  @@map("users")
+}
+
+model Admin {
+  id            String   @id @default(uuid())
+  name          String
+  email         String   @unique
+  profilePhoto  String?
+  contactNumber String
+  isDeleted     Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("admins")
+}
+
+model MarriageDocumention {
+  id                  String @id @default(uuid())
+  applicantName       String
+  applicantGender     Gender @default(MALE)
+  applicantBirthDate  String
+  applicantFatherName String
+  applicantMotherName String
+  nationalIdNumber    String @unique
+
+  spouseName             String
+  spouseGender           Gender @default(FEMALE)
+  spouseBirthDate        String
+  spouseFatherName       String
+  spouseMotherName       String
+  spouseNationalIdNumber String @unique
+
+  marriageDate              String
+  marriagePlace             String
+  marriageType              MarriageType
+  marriageRegistrarOffice   String
+  marriageCertificateNumber String            @unique
+  certificateIssuedDate     String
+  certificateStatus         CertificateStatus @default(ISSUED)
+
+  registrarName String
+  remarks       String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  witness       Witness[]
+
+  @@map("marriage_documention")
+}
+
+model Witness {
+  id          String              @id @default(uuid())
+  name        String
+  relation    String? // optional, eg. friend, brother, etc.
+  contactInfo String? // optional phone/email
+  marriageId  String
+  marriage    MarriageDocumention @relation(fields: [marriageId], references: [id])
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+
+  @@map("witnesses")
+}
+
+enum UserRole {
+  SUPER_ADMIN
+  ADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  BLOCKED
+  DELETED
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum BloodGroup {
+  A_POSITIVE
+  B_POSITIVE
+  O_POSITIVE
+  AB_POSITIVE
+  A_NEGATIVE
+  B_NEGATIVE
+  O_NEGATIVE
+  AB_NEGATIVE
+}
+
+enum MarriageType {
+  CIVIL
+  RELIGIOUS
+  COURT
+  CUSTOMARY
+}
+
+enum CertificateStatus {
+  ISSUED
+  PENDING
+  CANCELLED
+}
