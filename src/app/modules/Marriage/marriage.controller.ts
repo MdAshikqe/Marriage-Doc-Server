@@ -1,0 +1,42 @@
+import { Request, Response } from "express";
+import catchAsync from "../../../shared/catchAsync";
+import { MarrigeService } from "./marriage.service";
+import sendResponse from "../../../shared/sendResponse";
+import httpStatus from "http-status";
+
+const createMarriageDocumention=catchAsync(async(req:Request,res:Response)=>{
+    const result= await MarrigeService.createMarriageDocumention(req);
+
+    sendResponse(res,{
+        success:true,
+        statusCode:httpStatus.OK,
+        message:"create marriage documention",
+        data:result
+    })
+})
+const createWitness=catchAsync(async(req:Request,res:Response)=>{
+    const result= await MarrigeService.createWitness(req);
+
+    sendResponse(res,{
+        success:true,
+        statusCode:httpStatus.OK,
+        message:"create witness successfully",
+        data:result
+    })
+})
+const create=catchAsync(async(req:Request,res:Response)=>{
+    const result= await MarrigeService.create(req);
+
+    sendResponse(res,{
+        success:true,
+        statusCode:httpStatus.OK,
+        message:"create successfully",
+        data:result
+    })
+})
+
+export const MarrigeController={
+    createMarriageDocumention,
+    createWitness,
+    create
+}

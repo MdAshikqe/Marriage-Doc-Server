@@ -23,6 +23,7 @@ model User {
   status             UserStatus @default(ACTIVE)
   createdAt          DateTime   @default(now())
   updatedAt          DateTime   @updatedAt
+  admin              Admin?
 
   @@map("users")
 }
@@ -36,6 +37,7 @@ model Admin {
   isDeleted     Boolean  @default(false)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+  user          User     @relation(fields: [email], references: [email])
 
   @@map("admins")
 }
@@ -74,14 +76,14 @@ model MarriageDocumention {
 }
 
 model Witness {
-  id          String              @id @default(uuid())
-  name        String
-  relation    String? // optional, eg. friend, brother, etc.
-  contactInfo String? // optional phone/email
-  marriageId  String
-  marriage    MarriageDocumention @relation(fields: [marriageId], references: [id])
-  createdAt   DateTime            @default(now())
-  updatedAt   DateTime            @updatedAt
+  id                    String              @id @default(uuid())
+  name                  String
+  relation              String?
+  contactInfo           String?
+  marriageCertificateNo String
+  marriage              MarriageDocumention @relation(fields: [marriageCertificateNo], references: [marriageCertificateNumber])
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
 
   @@map("witnesses")
 }
