@@ -1,4 +1,4 @@
-import { Prisma } from "../../../../generated/prisma";
+import { MarriageDocumention, Prisma } from "../../../../generated/prisma";
 import { PaginationHelpers } from "../../../helpers/paginationHelpers";
 import prisma from "../../../shared/prisma"
 import { marriaeSearchAbleFields } from "./marriage.constant";
@@ -110,11 +110,29 @@ const getByIdMarriageDoc=async(id:string)=>{
     return result;
 }
 
+const updateIntoMarriagDB= async(id:string,data:Partial<MarriageDocumention>):Promise<MarriageDocumention>=>{
+    //is exit
+     await prisma.marriageDocumention.findUniqueOrThrow({
+        where:{
+            id
+        }
+    })
+
+    const result= await prisma.marriageDocumention.update({
+        where:{
+            id
+        },
+        data
+    })
+    return result
+};
+
 
 export const MarrigeService={
     createMarriageDocumention,
     createWitness,
     create,
     getAllMarriageDoc,
-    getByIdMarriageDoc
+    getByIdMarriageDoc,
+    updateIntoMarriagDB
 }

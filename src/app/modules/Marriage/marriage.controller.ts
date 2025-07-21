@@ -63,11 +63,24 @@ const getByIdMarriageDoc=catchAsync(async(req:Request,res:Response)=>{
         data:result
     })
 })
+const updateIntoMarriagDB=catchAsync(async(req:Request,res:Response)=>{
+    const {id}=req.params;
+    const data=req.body;
+    const result= await MarrigeService.updateIntoMarriagDB(id,data);
+
+    sendResponse(res,{
+        success:true,
+        statusCode:httpStatus.OK,
+        message:"update by id successfully",
+        data:result
+    })
+})
 
 export const MarrigeController={
     createMarriageDocumention,
     createWitness,
     create,
     getAllMarriageDoc,
-    getByIdMarriageDoc
+    getByIdMarriageDoc,
+    updateIntoMarriagDB
 }

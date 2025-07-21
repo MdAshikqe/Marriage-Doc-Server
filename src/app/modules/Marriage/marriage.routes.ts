@@ -9,6 +9,7 @@ router.post("/create-witness",MarrigeController.createWitness)
 router.post("/create",MarrigeController.create)
 router.get("/",MarrigeController.getAllMarriageDoc)
 router.get("/:id",MarrigeController.getByIdMarriageDoc)
+router.patch("/:id",MarrigeController.updateIntoMarriagDB)
 
 
 
