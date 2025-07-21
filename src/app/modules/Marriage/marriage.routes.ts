@@ -10,6 +10,7 @@ router.post("/create",MarrigeController.create)
 router.get("/",MarrigeController.getAllMarriageDoc)
 router.get("/:id",MarrigeController.getByIdMarriageDoc)
 router.patch("/:id",MarrigeController.updateIntoMarriagDB)
+router.delete("/:id",MarrigeController.deleteFromMarriageDB)
 
 
 
