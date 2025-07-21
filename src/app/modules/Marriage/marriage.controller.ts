@@ -52,9 +52,22 @@ const getAllMarriageDoc=catchAsync(async(req:Request,res:Response)=>{
     })
 })
 
+const getByIdMarriageDoc=catchAsync(async(req:Request,res:Response)=>{
+    const {id}=req.params;
+    const result= await MarrigeService.getByIdMarriageDoc(id);
+
+    sendResponse(res,{
+        success:true,
+        statusCode:httpStatus.OK,
+        message:"Get by id retrive data successfully",
+        data:result
+    })
+})
+
 export const MarrigeController={
     createMarriageDocumention,
     createWitness,
     create,
-    getAllMarriageDoc
+    getAllMarriageDoc,
+    getByIdMarriageDoc
 }

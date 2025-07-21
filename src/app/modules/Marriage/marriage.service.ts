@@ -97,10 +97,24 @@ const getAllMarriageDoc=async(filters:any,options:any)=>{
         
 }
 
+const getByIdMarriageDoc=async(id:string)=>{
+    const result= await prisma.marriageDocumention.findUniqueOrThrow({
+        where:{
+            id
+        },
+        include:{
+            witness:true
+        }
+
+    })
+    return result;
+}
+
 
 export const MarrigeService={
     createMarriageDocumention,
     createWitness,
     create,
-    getAllMarriageDoc
+    getAllMarriageDoc,
+    getByIdMarriageDoc
 }
