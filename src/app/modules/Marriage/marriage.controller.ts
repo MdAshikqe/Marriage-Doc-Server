@@ -3,6 +3,8 @@ import catchAsync from "../../../shared/catchAsync";
 import { MarrigeService } from "./marriage.service";
 import sendResponse from "../../../shared/sendResponse";
 import httpStatus from "http-status";
+import pick from "../../../shared/pick";
+import { marriageFilterAbleFields, marriagePaginationFields } from "./marriage.constant";
 
 const createMarriageDocumention=catchAsync(async(req:Request,res:Response)=>{
     const result= await MarrigeService.createMarriageDocumention(req);
@@ -24,6 +26,7 @@ const createWitness=catchAsync(async(req:Request,res:Response)=>{
         data:result
     })
 })
+
 const create=catchAsync(async(req:Request,res:Response)=>{
     const result= await MarrigeService.create(req);
 
@@ -34,9 +37,24 @@ const create=catchAsync(async(req:Request,res:Response)=>{
         data:result
     })
 })
+const getAllMarriageDoc=catchAsync(async(req:Request,res:Response)=>{
+    const filter=pick(req.query,marriageFilterAbleFields)
+    const options=pick(req.query,marriagePaginationFields)
+
+    const result= await MarrigeService.getAllMarriageDoc(filter,options);
+
+    sendResponse(res,{
+        success:true,
+        statusCode:httpStatus.OK,
+        message:"Marrigae doc retrive successfully",
+        metaData:result.metaData,
+        data:result.data
+    })
+})
 
 export const MarrigeController={
     createMarriageDocumention,
     createWitness,
-    create
+    create,
+    getAllMarriageDoc
 }
