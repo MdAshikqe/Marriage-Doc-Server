@@ -127,7 +127,8 @@ const updateIntoMarriagDB= async(id:string,data:Partial<MarriageDocumention>):Pr
     return result
 };
 
-const deleteFromMarriageDB= async(id:string):Promise<MarriageDocumention |null>=>{
+const deleteFromMarriageDB= async(id:string)=>{
+
     await prisma.marriageDocumention.findUniqueOrThrow({
         where:{
             id
@@ -141,7 +142,7 @@ const deleteFromMarriageDB= async(id:string):Promise<MarriageDocumention |null>=
         });
             await transactionClient.witness.deleteMany({
             where:{
-                marriageCertificateNo:deleteMarriagData.marriageCertificateNumber
+                marriageCertificateNo:deleteMarriagData?.marriageCertificateNumber
             }
         });
         return deleteMarriagData;
