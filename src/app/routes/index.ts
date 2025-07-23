@@ -3,6 +3,7 @@ import { userRouter } from "../modules/User/user.routes";
 import { adminRouter } from "../modules/Admin/admin.routes";
 import { marriageRoute } from "../modules/Marriage/marriage.routes";
 import { authRoutes } from "../modules/Auth/auth.routes";
+import { metaRoutes } from "../Meta/meta.routes";
 
 
 const router= express.Router();
@@ -23,6 +24,10 @@ const moduleRoutes=[
     {
         path:"/auth",
         route:authRoutes
+    },
+    {
+        path:"/meta",
+        route:metaRoutes
     },
 
 ];
